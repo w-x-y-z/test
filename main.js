@@ -1,7 +1,7 @@
 let d;
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("/test/sw.js")
+    .register("https://w-x-y-z.github.io/test/sw.js")
     .then(function (registration) {
       console.log("Service Worker registrado correctamente");
     })
