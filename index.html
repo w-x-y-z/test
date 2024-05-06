@@ -1,70 +1,49 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <title>Notificaciones para Android</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test</title>
-  <style>
-    .content{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-    .content div{
-      border: 1px solid black;
-      width: 100px;
-      text-align: center;
-    }
-    .content div:nth-child(odd){
-      background-color: tomato;
-    }
-  </style>
-  <script>
-  Notification.requestPermission().then(function(permission) {
-    if (permission === 'granted') {
-      // El usuario aceptó las notificaciones
-      console.log('permitido')
-    } else {
-      // El usuario denegó las notificaciones
-      console.log('no permitido')
-    }
-  });
-  function showNotification() {
-  const notification = new Notification('¡Hola, mundo!', {
-    body: 'Esta es una notificación de ejemplo',
-    icon: 'https://ejemplo.com/icono.png'
-  });
-
-  // Puedes agregar un evento para cuando el usuario haga clic en la notificación
-  notification.onclick = () => {
-    window.open('https://ejemplo.com', '_blank');
-  };
-}
-
-
-//btnAlerta.addE
-const notificationTime = new Date().getTime() + 5000; // Muestra la notificación en 5 segundos
-
-const notificationTimeout = setTimeout(() => {
-  showNotification();
-}, notificationTime - new Date().getTime());
-
-  </script>
 </head>
 <body>
-  <h3>Hola</h3>
-  <button id="btnAlerta">alerta</button>
-  <div class="content">
-    <div>1</div>
-    <div>2</div>
-    <div>3</div>
-    <div>4</div>
-    <div>5</div>
-  </div>
+  <button id="notifyButton">Mostrar Notificación</button>
+
   <script>
-    btnAlerta.addEventListener('click', ()=> {
-    showNotification();
-    });
+    // Verificar si el navegador admite notificaciones
+    if ('Notification' in window && 'serviceWorker' in navigator) {
+      // Solicitar permiso para mostrar notificaciones
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          // El usuario aceptó las notificaciones
+          console.log('Notificaciones permitidas');
+        } else {
+          // El usuario denegó las notificaciones
+          console.log('Notificaciones bloqueadas');
+        }
+      });
+    } else {
+      console.log('Este navegador no admite notificaciones');
+    }
+
+    // Función para mostrar la notificación
+    function showNotification() {
+      const notificationOptions = {
+        body: 'Esta es una notificación de ejemplo para Android',
+        icon: 'https://ejemplo.com/icono.png',
+        vibrate: [200, 100, 200], // Patrón de vibración
+        actions: [
+          { action: 'abrir', title: 'Abrir' },
+          { action: 'ignorar', title: 'Ignorar' }
+        ]
+      };
+
+      // Mostrar la notificación
+      navigator.serviceWorker.ready.then(function(registration) {
+        registration.showNotification('Notificación de Android', notificationOptions);
+      });
+    }
+
+    // Agregar evento de clic al botón
+    document.getElementById('notifyButton').addEventListener('click', showNotification);
   </script>
 </body>
 </html>
