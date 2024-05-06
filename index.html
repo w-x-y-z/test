@@ -1,49 +1,43 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <title>Notificaciones para Android</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <button id="notifyButton">Mostrar Notificación</button>
-
+  <script src="sw.js"></script>
   <script>
-    // Verificar si el navegador admite notificaciones
-    if ('Notification' in window && 'serviceWorker' in navigator) {
-      // Solicitar permiso para mostrar notificaciones
-      Notification.requestPermission().then(function(permission) {
-        if (permission === 'granted') {
-          // El usuario aceptó las notificaciones
-          console.log('Notificaciones permitidas');
-        } else {
-          // El usuario denegó las notificaciones
-          console.log('Notificaciones bloqueadas');
-        }
-      });
-    } else {
-      console.log('Este navegador no admite notificaciones');
-    }
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(function(registration) {
+      console.log('Service Worker registrado correctamente');
+    })
+    .catch(function(error) {
+      console.log('Error al registrar el Service Worker:', error);
+    });
+}
 
-    // Función para mostrar la notificación
-    function showNotification() {
-      const notificationOptions = {
-        body: 'Esta es una notificación de ejemplo para Android',
-        icon: 'https://ejemplo.com/icono.png',
-        vibrate: [200, 100, 200], // Patrón de vibración
-        actions: [
-          { action: 'abrir', title: 'Abrir' },
-          { action: 'ignorar', title: 'Ignorar' }
-        ]
-      };
+function simularNotificacionPush() {
+  navigator.serviceWorker.ready.then(function(registration) {
+    const options = {
+      body: 'Contenido de la notificación push simulada.',
+      icon: 'icons/icon-192x192.png',
+      badge: 'icons/badge.png',
+      data: {
+        url: 'https://ejemplo.com/notificacion'
+      }
+    };
 
-      // Mostrar la notificación
-      navigator.serviceWorker.ready.then(function(registration) {
-        registration.showNotification('Notificación de Android', notificationOptions);
-      });
-    }
+    registration.showNotification('Notificación Push Simulada', options);
+  });
+}
 
     // Agregar evento de clic al botón
-    document.getElementById('notifyButton').addEventListener('click', showNotification);
+    //document.getElementById('notifyButton').addEventListener('click', showNotification);
+    notifyButton.addEventListener('click', ()=>{ debugger; simularNotificacionPush();});
   </script>
 </body>
 </html>
