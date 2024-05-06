@@ -19,9 +19,41 @@
       background-color: tomato;
     }
   </style>
+  <script>
+  Notification.requestPermission().then(function(permission) {
+    if (permission === 'granted') {
+      // El usuario aceptó las notificaciones
+      console.log('permitido')
+    } else {
+      // El usuario denegó las notificaciones
+      console.log('no permitido')
+    }
+  });
+  function showNotification() {
+  const notification = new Notification('¡Hola, mundo!', {
+    body: 'Esta es una notificación de ejemplo',
+    icon: 'https://ejemplo.com/icono.png'
+  });
+
+  // Puedes agregar un evento para cuando el usuario haga clic en la notificación
+  notification.onclick = () => {
+    window.open('https://ejemplo.com', '_blank');
+  };
+}
+
+
+//btnAlerta.addE
+const notificationTime = new Date().getTime() + 5000; // Muestra la notificación en 5 segundos
+
+const notificationTimeout = setTimeout(() => {
+  showNotification();
+}, notificationTime - new Date().getTime());
+
+  </script>
 </head>
 <body>
   <h3>Hola</h3>
+  <button id="btnAlerta">alerta</button>
   <div class="content">
     <div>1</div>
     <div>2</div>
@@ -29,5 +61,10 @@
     <div>4</div>
     <div>5</div>
   </div>
+  <script>
+    btnAlerta.addEventListener('click', ()=> {
+    showNotification();
+    });
+  </script>
 </body>
 </html>
