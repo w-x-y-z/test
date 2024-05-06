@@ -1,6 +1,7 @@
+let d;
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("sw.js")
+    .register("/test/sw.js")
     .then(function (registration) {
       console.log("Service Worker registrado correctamente");
     })
@@ -10,7 +11,7 @@ if ("serviceWorker" in navigator) {
 }
 
 function simularNotificacionPush() {
-  navigator.serviceWorker.ready.then(function (registration) {
+  navigator.serviceWorker.ready.then(function (e) {
     const options = {
       body: "Contenido de la notificación push simulada.",
       //icon: "icons/icon-192x192.png",
@@ -19,8 +20,9 @@ function simularNotificacionPush() {
         url: "https://ejemplo.com/notificacion",
       },
     };
-
-    registration.showNotification("Notificación Push Simulada", options);
+    d=e;
+    console.log(e);
+    e.showNotification("Notificación Push Simulada", options);
   });
 }
 
