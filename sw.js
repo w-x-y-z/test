@@ -1,4 +1,5 @@
 let d
+let sw
 self.addEventListener("install", function (event) {
   console.log("[Service Worker] Instalado");
 });
@@ -13,7 +14,9 @@ self.addEventListener("push", function (event) {
     badge: "icons/badge.png",
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  //event.waitUntil(self.registration.showNotification(title, options));
+  //event.registration.showNotification(title, options);
+  event.waitUntil(sw.showNotification(title, options));
 });
 
 function simularNotificacionPush() {
@@ -31,3 +34,16 @@ function simularNotificacionPush() {
     e.showNotification("Notificación Push Simulada", options);
   });
 }
+
+ tesNotificacionPush= () => {
+    const options = {
+      body: "Contenido de la notificación push simulada 123",
+      //icon: "icons/icon-192x192.png",
+      //badge: "icons/badge.png",
+      data: {
+        url: "https://ejemplo.com/notificacion",
+      },
+    };
+    sw.showNotification("Notificación Push Simulada", options);
+}
+
