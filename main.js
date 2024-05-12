@@ -15,10 +15,16 @@ if ("serviceWorker" in navigator) {
 
 // Agregar evento de clic al botón
 //document.getElementById('notifyButton').addEventListener('click', showNotification);
-notifyButton.addEventListener("click", () => {
+let intervalo;
+notifyButton.addEventListener("click",(e)=>{
   debugger;
   tesNotificacionPush();
-});
+  intervalo= setInterval(tesNotificacionPush,1000*5);
+})
+
+btnStop.addEventListener("click",(e)=>{
+  clearInterval(intervalo);
+})
 
 
 // Crear un nuevo evento personalizado
